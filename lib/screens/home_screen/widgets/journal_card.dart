@@ -15,7 +15,7 @@ class JournalCard extends StatelessWidget {
         onTap: () {},
         child: Container(
           height: 115,
-          margin: const EdgeInsets.all(8),
+          margin: const EdgeInsets.only(bottom: 8),
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black87,
@@ -79,10 +79,10 @@ class JournalCard extends StatelessWidget {
       );
     } else {
       return InkWell(
-        onTap: () {},
+        onTap: () {callAddJournalScreen(context);},
         child: Container(
           height: 115,
-          alignment: Alignment.center,
+          alignment: Alignment.centerLeft,
           child: Text(
             "${WeekDay(showedDate.weekday).short} - ${showedDate.day}",
             style: const TextStyle(fontSize: 12),
@@ -91,5 +91,8 @@ class JournalCard extends StatelessWidget {
         ),
       );
     }
+  }
+  callAddJournalScreen(BuildContext context) {
+    Navigator.pushNamed(context, "add-journal");
   }
 }

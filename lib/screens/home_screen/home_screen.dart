@@ -37,13 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(
           "${currentDay.day}  |  ${currentDay.month}  |  ${currentDay.year}",
         ),
+        centerTitle: false,
       ),
-      body: ListView(
-        controller: _listScrollController,
-        children: generateListJournalCards(
-          windowPage: windowPage,
-          currentDay: currentDay,
-          database: database,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: ListView(
+            controller: _listScrollController,
+            children: generateListJournalCards(
+              windowPage: windowPage,
+              currentDay: currentDay,
+              database: database,
+            ),
+          ),
         ),
       ),
     );

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/helpers/weekday.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
+import 'package:flutter_webapi_first_course/services/journal_service.dart';
 
 class AddJournalScreen extends StatelessWidget {
   final Journal journal;
-  const AddJournalScreen({Key? key, required this.journal}) : super(key: key);
+  AddJournalScreen({Key? key, required this.journal}) : super(key: key);
+  final TextEditingController _contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,20 +15,39 @@ class AddJournalScreen extends StatelessWidget {
         title: Text(
             "${WeekDay(journal.createdAt.weekday).long.toLowerCase()}, ${journal.createdAt.day} | ${journal.createdAt.month} | ${journal.createdAt.year}"),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
+          IconButton(onPressed: () {
+            registerJournal(context);
+          }, icon: const Icon(Icons.check)),
         ],
       ),
-      body: const TextField(
+      body: TextField(
+        controller: _contentController,
         keyboardType: TextInputType.multiline,
-        style: TextStyle(fontSize: 24),
+        style: const TextStyle(fontSize: 24),
         expands: true,
         maxLines: null,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: "What is on your mind?",
           contentPadding: EdgeInsets.all(20),
           border: InputBorder.none,
         ),
       ),
     );
+  }
+
+  registerJournal(BuildContext context) async {
+    String content = _contentController.text;
+
+    journal.content = content;
+
+    JournalService service = JournalService();
+    await service.register(journal);
+
+    if(context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Journal added successfully!")),
+      );
+      Navigator.pop(context);
+    }
   }
 }

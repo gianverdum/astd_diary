@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/screens/add_journal_screen/add_journal_screen.dart';
-import 'package:flutter_webapi_first_course/services/async_study.dart';
 import 'package:flutter_webapi_first_course/services/journal_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_screen/home_screen.dart';
@@ -9,9 +8,8 @@ import 'screens/home_screen/home_screen.dart';
 void main() async {
   runApp(const MyApp());
 
-  JournalService service = JournalService();
-  // await service.register('Hello world!');
-  // asyncStudy();
+  // JournalService service = JournalService();
+  // await service.register(Journal.empty());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +23,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           appBarTheme: const AppBarTheme(
             elevation: 0,
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.blueGrey,
             titleTextStyle: TextStyle(color: Colors.white),
             iconTheme: IconThemeData(color: Colors.white),
           ),
@@ -35,13 +33,15 @@ class MyApp extends StatelessWidget {
       initialRoute: "home",
       routes: {
         "home": (context) => const HomeScreen(),
-        "add-journal": (context) => AddJournalScreen(
-              journal: Journal(
-                  id: "id",
-                  content: "content",
-                  createdAt: DateTime.now(),
-                  updatedAt: DateTime.now()),
-            ),
+      },
+      onGenerateRoute: (settings) {
+        if(settings.name == "add-journal") {
+          final Journal journal = settings.arguments as Journal;
+          return MaterialPageRoute(
+            builder: (context) => AddJournalScreen(journal: journal),
+          );
+        }
+        return null;
       },
     );
   }

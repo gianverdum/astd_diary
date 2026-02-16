@@ -16,9 +16,9 @@ class LoggerInterceptor extends InterceptorContract {
     if (request is Request) {
       log('Body: ${request.body}');
     }
-    if (request is Request) {
-      logger.t('Making a ${request.method} to the URL: ${request.url}\nHeaders: ${request.headers}\nBody: ${Uri.decodeComponent(request.body)}');
-    }
+    // if (request is Request) {
+    //   logger.t('Making a ${request.method} to the URL: ${request.url}\nHeaders: ${request.headers}\nBody: ${Uri.decodeComponent(request.body)}');
+    // }
     return request;
   }
 
@@ -26,21 +26,21 @@ class LoggerInterceptor extends InterceptorContract {
   Future<BaseResponse> interceptResponse({
     required BaseResponse response,
   }) async {
-    if (response.statusCode ~/ 100 ==2){
-      logger.i('Received a response with status code: ${response.statusCode}');
-    } else if (response.statusCode ~/ 100 == 4) {
-      logger.w('Received a client error with status code: ${response.statusCode}');
-    } else if (response.statusCode ~/ 100 == 5) {
-      logger.e('Received a server error with status code: ${response.statusCode}');
-    }
+    // if (response.statusCode ~/ 100 ==2){
+    //   logger.i('Received a response with status code: ${response.statusCode}');
+    // } else if (response.statusCode ~/ 100 == 4) {
+    //   logger.w('Received a client error with status code: ${response.statusCode}');
+    // } else if (response.statusCode ~/ 100 == 5) {
+    //   logger.e('Received a server error with status code: ${response.statusCode}');
+    // }
     log('----- Response -----');
     log('Code: ${response.statusCode}');
     if (response is Response) {
       log((response).body);
     }
-    if (response is Response) {
-      logger.t('Response with status code: ${response.statusCode}\nBody: ${response.body}');
-    }
+    // if (response is Response) {
+    //   logger.t('Response with status code: ${response.statusCode}\nBody: ${response.body}');
+    // }
     return response;
   }
 }

@@ -18,12 +18,24 @@ List<JournalCard> generateListJournalCards(
 
   //Preenche os espaços que possuem entradas no banco
   database.forEach((key, value) {
-    if (value.createdAt
-        .isAfter(currentDay.subtract(Duration(days: windowPage)))) {
-      int difference = value.createdAt
-          .difference(currentDay.subtract(Duration(days: windowPage)))
-          .inDays
-          .abs();
+    // Normalize dates to midnight for accurate day comparison
+    DateTime normalizedCreatedAt = DateTime(
+      value.createdAt.year,
+      value.createdAt.month,
+      value.createdAt.day,
+    );
+    
+    DateTime normalizedStart = DateTime(
+      currentDay.year,
+      currentDay.month,
+      currentDay.day,
+    ).subtract(Duration(days: windowPage));
+    
+    if (normalizedCreatedAt.isAfter(normalizedStart) || 
+        normalizedCreatedAt.isAtSameMomentAs(normalizedStart)) {
+      int difference = normalizedCreatedAt
+          .difference(normalizedStart)
+          .inDays;
 
       list[difference] = JournalCard(
         showedDate: list[difference].showedDate,

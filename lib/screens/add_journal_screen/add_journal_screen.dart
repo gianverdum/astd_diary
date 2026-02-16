@@ -47,7 +47,7 @@ class AddJournalScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Journal added successfully!")),
       );
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
 }

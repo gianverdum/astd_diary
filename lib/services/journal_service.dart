@@ -22,8 +22,18 @@ class JournalService {
         headers: {'Content-type': 'application/json'}, body: content);
   }
 
-  Future<String> get() async {
+  Future<List<Journal>> getAll() async {
     http.Response response = await client.get(Uri.parse(getUrl()));
-    return response.body;
+    if(response.statusCode != 200) {
+      throw Exception("Failed to load journals");
+    }
+
+    List<Journal> list = [];
+    List<dynamic> decoded = json.decode(response.body);
+
+    for (var jsonMap in decoded) {
+      list.add(Journal.fromMap(jsonMap));
+    }
+    return list;
   }
 }

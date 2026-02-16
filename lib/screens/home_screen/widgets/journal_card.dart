@@ -6,7 +6,10 @@ import 'package:uuid/uuid.dart';
 class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
-  const JournalCard({Key? key, this.journal, required this.showedDate})
+  final VoidCallback? onRefresh;
+
+  const JournalCard(
+      {Key? key, this.journal, required this.showedDate, this.onRefresh})
       : super(key: key);
 
   @override
@@ -81,7 +84,9 @@ class JournalCard extends StatelessWidget {
     } else {
       return InkWell(
         onTap: () {
-          callAddJournalScreen(context);
+          if(onRefresh != null) {
+            callAddJournalScreen(context, onRefresh!);
+          }
         },
         child: Container(
           height: 115,
@@ -96,12 +101,15 @@ class JournalCard extends StatelessWidget {
     }
   }
 
-  callAddJournalScreen(BuildContext context) {
-    Navigator.pushNamed(context, "add-journal",
+  callAddJournalScreen(BuildContext context, VoidCallback onRefresh) async {
+    final result = await Navigator.pushNamed(context, "add-journal",
         arguments: Journal(
             id: const Uuid().v4(),
             content: "",
             createdAt: showedDate,
             updatedAt: showedDate));
+    if (result == true) {
+      onRefresh();
+    }
   }
 }

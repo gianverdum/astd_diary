@@ -1,0 +1,12 @@
+{
+  "name": "flutter-webapi-first-course-server",
+  "private": true,
+  "scripts": {
+    "start": "json-server --watch db.json --host 0.0.0.0 --port 3000",
+    "auth": "json-server-auth --watch db.json -r routes.json --host 0.0.0.0 --port 3000"
+  },
+  "devDependencies": {
+    "json-server": "0.17.4",
+    "json-server-auth": "2.1.0"
+  }
+}

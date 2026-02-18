@@ -4,63 +4,65 @@ This folder contains the backend server for the Flutter WebAPI course project.
 
 ## Prerequisites
 
-- **Node.js v20+** is required to run the latest version of json-server
+- Use an LTS Node.js version (`18.x` or `20.x` recommended)
 - Check your Node.js version: `node --version`
-- If you're using an older version, update Node.js or use an older json-server version
 
-## How to Run the Server
+## Why `json-server-auth` was failing
 
-1. Navigate to the server directory:
-   ```bash
-   cd server
-   ```
+`json-server-auth` is not fully compatible with `json-server` `1.x` beta.
+This project is pinned to:
+- `json-server@0.17.4`
+- `json-server-auth@2.1.0`
 
-2. Start the json-server:
-   ```bash
-   npx json-server --watch db.json --host 192.168.15.88 --port 3000
-   ```
+## How to Run
 
-   Or use a specific version if needed:
-   ```bash
-   npx json-server@0.17.4 --watch db.json --host 192.168.15.88 --port 3000
-   ```
-
-## Server Details
-
-- **Host**: `192.168.15.88`
-- **Port**: `3000`
-- **Endpoint**: `http://192.168.15.88:3000/learnhttp`
-
-## Verify It's Running
-
-You should see output like:
+1. Install dependencies once:
+```bash
+cd server
+npm install
 ```
-\{^_^}/ hi!
 
-Loading db.json
-Done
+2. Run without auth:
+```bash
+npm run start
+```
 
-Resources
-http://192.168.15.88:3000/learnhttp
+3. Run with auth:
+```bash
+npm run auth
+```
 
-Home
-http://192.168.15.88:3000
+Server runs at:
+- `http://localhost:3000`
+- `http://<your-local-ip>:3000` (for mobile emulator/device)
+
+## Quick One-Liner (no install)
+
+If you want to test directly with `npx`, use both packages pinned:
+```bash
+npx --yes --package=json-server@0.17.4 --package=json-server-auth@2.1.0 json-server-auth --watch db.json --host 0.0.0.0 --port 3000
 ```
 
 ## Troubleshooting
 
-### Node.js Version Error
-If you see: `SyntaxError: The requested module 'node:buffer' does not provide an export named 'File'`
-
-**Solution**: Update Node.js to v20+ or use:
+### `Cannot find module 'json-server'` or `'express'`
+This means only `json-server-auth` was installed/resolved.
+Install and run from local dependencies:
 ```bash
-npx json-server@0.17.4 --watch db.json --host 192.168.15.88 --port 3000
+npm install
+npm run auth
+```
+
+### Node version too new/unstable for old tooling
+If you still get startup errors, use Node LTS:
+```bash
+nvm use 20
 ```
 
 ### Port Already in Use
 If port 3000 is already in use, change it:
 ```bash
-npx json-server --watch db.json --host 192.168.15.88 --port 3001
+npx --yes --package=json-server@0.17.4 json-server --watch db.json --host 0.0.0.0 --port 3001
 ```
 
 Remember to update the port in your Flutter app's `journal_service.dart` file as well.

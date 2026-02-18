@@ -1,13 +1,20 @@
 {
+  "users": [
+    {
+      "email": "email@email.com",
+      "password": "$2a$10$QLQdDk8emWltAgvfj8kiW.qV.hwEtT6o4W.opS9x.lbthBTwcKh8u",
+      "id": 1
+    }
+  ],
   "learnhttp": {
     "content": "Hello world!"
   },
   "journals": [
     {
-      "id": "4c4c46a4-66c1-42dd-9f9b-1c650a4fcc16",
-      "content": "Learn is harder than we think...",
-      "created_at": "2026-02-07 18:04:57.926891",
-      "updated_at": "2026-02-07 18:04:57.926891"
+      "id": "5e384148-1e24-4c35-8e7b-126fd5958588",
+      "content": "Do I know how to use JWT?",
+      "created_at": "2026-02-11 16:14:55.155270",
+      "updated_at": "2026-02-11 16:14:55.155270"
     }
   ]
 }

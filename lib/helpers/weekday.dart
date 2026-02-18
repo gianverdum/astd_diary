@@ -8,32 +8,32 @@ class WeekDay {
     int weekday = date.weekday;
     switch (weekday) {
       case 7:
-        short = "dom";
-        long = "Domingo";
+        short = "sun";
+        long = "Sunday";
         break;
       case 1:
-        short = "seg";
-        long = "Segunda-Feira";
+        short = "mon";
+        long = "Monday";
         break;
       case 2:
-        short = "ter";
-        long = "Terça-Feira";
+        short = "tue";
+        long = "Tuesday";
         break;
       case 3:
-        short = "qua";
-        long = "Quarta-Feira";
+        short = "wed";
+        long = "Wednesday";
         break;
       case 4:
-        short = "qui";
-        long = "Quinta-Feira";
+        short = "thu";
+        long = "Thursday";
         break;
       case 5:
-        short = "sex";
-        long = "Sexta-Feira";
+        short = "fri";
+        long = "Friday";
         break;
       case 6:
-        short = "sab";
-        long = "Sábado";
+        short = "sat";
+        long = "Saturday";
         break;
     }
   }

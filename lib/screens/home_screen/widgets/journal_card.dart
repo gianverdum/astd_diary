@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/helpers/weekday.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
+import 'package:flutter_webapi_first_course/screens/common/confirmation_dialog.dart';
+import 'package:flutter_webapi_first_course/services/journal_service.dart';
 import 'package:uuid/uuid.dart';
 
 class JournalCard extends StatelessWidget {
@@ -16,7 +18,11 @@ class JournalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (journal != null) {
       return InkWell(
-        onTap: () {},
+        onTap: () {
+          if (onRefresh != null) {
+            callAddJournalScreen(context, onRefresh!, journal: journal);
+          }
+        },
         child: Container(
           height: 115,
           margin: const EdgeInsets.only(bottom: 8),
@@ -77,6 +83,11 @@ class JournalCard extends StatelessWidget {
                   ),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    removeJournal(context, onRefresh!);
+                  },
+                  icon: const Icon(Icons.delete))
             ],
           ),
         ),
@@ -84,7 +95,7 @@ class JournalCard extends StatelessWidget {
     } else {
       return InkWell(
         onTap: () {
-          if(onRefresh != null) {
+          if (onRefresh != null) {
             callAddJournalScreen(context, onRefresh!);
           }
         },
@@ -101,15 +112,52 @@ class JournalCard extends StatelessWidget {
     }
   }
 
-  callAddJournalScreen(BuildContext context, VoidCallback onRefresh) async {
-    final result = await Navigator.pushNamed(context, "add-journal",
-        arguments: Journal(
-            id: const Uuid().v4(),
-            content: "",
-            createdAt: showedDate,
-            updatedAt: showedDate));
+  callAddJournalScreen(BuildContext context, VoidCallback onRefresh,
+      {Journal? journal}) async {
+    Journal innerJournal = Journal(
+        id: const Uuid().v4(),
+        content: "",
+        createdAt: showedDate,
+        updatedAt: showedDate);
+
+    Map<String, dynamic> map = {};
+
+    if (journal != null) {
+      innerJournal = journal;
+      map["is_editing"] = false;
+    } else {
+      map["is_editing"] = true;
+    }
+
+    map["journal"] = innerJournal;
+
+    final result =
+        await Navigator.pushNamed(context, "add-journal", arguments: map);
     if (result == true) {
       onRefresh();
+    }
+  }
+
+  removeJournal(BuildContext context, VoidCallback onRefresh) async {
+    JournalService service = JournalService();
+    if (journal != null) {
+      showConfirmationDialog(
+        context,
+        content:
+            "Do you really want to delete the diary entry of ${WeekDay(journal!.createdAt)}?",
+        affirmativeOption: "Delete",
+      ).then((value) {
+        if (value != null && value == true) {
+          service.delete(journal!.id).then((_) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Journal removed successfully!")),
+              );
+              onRefresh();
+            }
+          });
+        }
+      });
     }
   }
 }

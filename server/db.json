@@ -4,34 +4,10 @@
   },
   "journals": [
     {
-      "id": "c866fa3e-5366-422e-b4fe-46891ba09629",
-      "content": "Now I think I’m learning :)",
-      "created_at": "2026-02-16 16:52:34.998906",
-      "updated_at": "2026-02-16 16:52:34.998906"
-    },
-    {
-      "id": "3733c848-9f1f-4175-969d-ea2d3a6b2660",
-      "content": "What am I really learning here?",
-      "created_at": "2026-02-14 16:59:45.202445",
-      "updated_at": "2026-02-14 16:59:45.202445"
-    },
-    {
-      "id": "fa04f213-8805-43d1-9355-d7d7b39469c0",
-      "content": "What a great day!",
-      "created_at": "2026-02-14 17:35:38.408998",
-      "updated_at": "2026-02-14 17:35:38.408998"
-    },
-    {
       "id": "4c4c46a4-66c1-42dd-9f9b-1c650a4fcc16",
-      "content": "Am I good at copy and paste?",
+      "content": "Learn is harder than we think...",
       "created_at": "2026-02-07 18:04:57.926891",
       "updated_at": "2026-02-07 18:04:57.926891"
-    },
-    {
-      "id": "ee629708-71a9-4598-b79c-8834e2b90c98",
-      "content": "New wednesday",
-      "created_at": "2026-02-07 18:25:12.112014",
-      "updated_at": "2026-02-07 18:25:12.112014"
     }
   ]
 }

@@ -1,10 +1,10 @@
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:developer';
 
-import 'package:logger/logger.dart';
+// import 'package:logger/logger.dart';
 
 class LoggerInterceptor extends InterceptorContract {
-  Logger logger = Logger();
+  // Logger logger = Logger();
 
   @override
   Future<BaseRequest> interceptRequest({

@@ -36,4 +36,14 @@ class JournalService {
     }
     return list;
   }
+
+  Future<void> edit(String id, Journal journal) async {
+    String content = json.encode(journal.toMap());
+    await client.put(Uri.parse("${getUrl()}$id"),
+        headers: {'Content-type': 'application/json'}, body: content);
+  }
+
+  Future<void> delete(String id) async {
+    await client.delete(Uri.parse("${getUrl()}$id"));
+  }
 }

@@ -6,7 +6,6 @@ import 'screens/home_screen/home_screen.dart';
 
 void main() async {
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -32,10 +31,15 @@ class MyApp extends StatelessWidget {
         "home": (context) => const HomeScreen(),
       },
       onGenerateRoute: (settings) {
-        if(settings.name == "add-journal") {
-          final Journal journal = settings.arguments as Journal;
+        if (settings.name == "add-journal") {
+          Map<String, dynamic> map = settings.arguments as Map<String, dynamic>;
+          final Journal journal = map["journal"] as Journal;
+          final bool isEditing = map["is_editing"];
           return MaterialPageRoute(
-            builder: (context) => AddJournalScreen(journal: journal),
+            builder: (context) => AddJournalScreen(
+              journal: journal,
+              isEditing: isEditing,
+            ),
           );
         }
         return null;

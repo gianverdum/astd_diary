@@ -16,15 +16,24 @@ class JournalService {
     return url + resource;
   }
 
-  Future<void> register(Journal journal) async {
+  Future<void> register(Journal journal, {required String token}) async {
     String content = json.encode(journal.toMap());
     await client.post(Uri.parse(getUrl()),
-        headers: {'Content-type': 'application/json'}, body: content);
+        headers: {
+          'Content-type': 'application/json',
+          "Authorization": "Bearer $token",
+        },
+        body: content);
   }
 
-  Future<List<Journal>> getAll() async {
-    http.Response response = await client.get(Uri.parse(getUrl()));
-    if(response.statusCode != 200) {
+  Future<List<Journal>> getAll(
+      {required String id, required String token}) async {
+    http.Response response = await client
+        .get(Uri.parse(getUrl()), headers: {"Authorization": "Bearer $token"});
+    if (response.statusCode == 401) {
+      throw Exception("unauthorized");
+    }
+    if (response.statusCode != 200) {
       throw Exception("Failed to load journals");
     }
 
@@ -37,13 +46,18 @@ class JournalService {
     return list;
   }
 
-  Future<void> edit(String id, Journal journal) async {
+  Future<void> edit(String id, Journal journal, {required String token}) async {
     String content = json.encode(journal.toMap());
     await client.put(Uri.parse("${getUrl()}$id"),
-        headers: {'Content-type': 'application/json'}, body: content);
+        headers: {
+          'Content-type': 'application/json',
+          "Authorization": "Bearer $token",
+        },
+        body: content);
   }
 
-  Future<void> delete(String id) async {
-    await client.delete(Uri.parse("${getUrl()}$id"));
+  Future<void> delete(String id, {required String token}) async {
+    await client.delete(Uri.parse("${getUrl()}$id"),
+    headers: {"authorization": "Bearer $token"});
   }
 }

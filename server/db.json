@@ -4,6 +4,11 @@
       "email": "email@email.com",
       "password": "$2a$10$QLQdDk8emWltAgvfj8kiW.qV.hwEtT6o4W.opS9x.lbthBTwcKh8u",
       "id": 1
+    },
+    {
+      "email": "email1@email.com",
+      "password": "$2a$10$k5JV4Rsbc0PL0i0QszufRulVpDBtR7ndmoObm975q75e5wth.3LQu",
+      "id": 2
     }
   ],
   "learnhttp": {
@@ -11,10 +16,11 @@
   },
   "journals": [
     {
-      "id": "5e384148-1e24-4c35-8e7b-126fd5958588",
-      "content": "Do I know how to use JWT?",
-      "created_at": "2026-02-11 16:14:55.155270",
-      "updated_at": "2026-02-11 16:14:55.155270"
+      "id": "02d32e59-a628-4f83-a279-f87336f22842",
+      "content": "Progress made…",
+      "created_at": "2026-02-21 19:13:41.872727",
+      "updated_at": "2026-02-21 19:13:41.872727",
+      "userId": 1
     }
   ]
 }

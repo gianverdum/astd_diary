@@ -3,15 +3,17 @@ import 'package:flutter_webapi_first_course/helpers/weekday.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/screens/common/confirmation_dialog.dart';
 import 'package:flutter_webapi_first_course/services/journal_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
   final VoidCallback? onRefresh;
+  final int userId;
 
   const JournalCard(
-      {Key? key, this.journal, required this.showedDate, this.onRefresh})
+      {Key? key, this.journal, required this.showedDate, this.onRefresh, required this.userId,})
       : super(key: key);
 
   @override
@@ -118,7 +120,8 @@ class JournalCard extends StatelessWidget {
         id: const Uuid().v4(),
         content: "",
         createdAt: showedDate,
-        updatedAt: showedDate);
+        updatedAt: showedDate,
+        userId: userId);
 
     Map<String, dynamic> map = {};
 
@@ -138,26 +141,31 @@ class JournalCard extends StatelessWidget {
     }
   }
 
-  removeJournal(BuildContext context, VoidCallback onRefresh) async {
+  Future<void> removeJournal(BuildContext context, VoidCallback onRefresh) async {
+    if (journal == null) return;
+    
+    final confirmed = await showConfirmationDialog(
+      context,
+      content:
+          "Do you really want to delete the diary entry of ${WeekDay(journal!.createdAt)}?",
+      affirmativeOption: "Delete",
+    );
+    
+    if (confirmed != true || !context.mounted) return;
+    
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("accessToken");
+    
+    if (token == null || !context.mounted) return;
+    
     JournalService service = JournalService();
-    if (journal != null) {
-      showConfirmationDialog(
-        context,
-        content:
-            "Do you really want to delete the diary entry of ${WeekDay(journal!.createdAt)}?",
-        affirmativeOption: "Delete",
-      ).then((value) {
-        if (value != null && value == true) {
-          service.delete(journal!.id).then((_) {
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Journal removed successfully!")),
-              );
-              onRefresh();
-            }
-          });
-        }
-      });
-    }
+    await service.delete(journal!.id, token: token);
+    
+    if (!context.mounted) return;
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Journal removed successfully!")),
+    );
+    onRefresh();
   }
 }

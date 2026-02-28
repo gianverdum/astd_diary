@@ -21,6 +21,13 @@
       "created_at": "2026-02-21 19:13:41.872727",
       "updated_at": "2026-02-21 19:13:41.872727",
       "userId": 1
+    },
+    {
+      "id": "cb21e170-dc8b-4681-bf1e-281aea0781ff",
+      "content": "Did I logged in? Yes I did!",
+      "created_at": "2026-02-20 20:18:38.252219",
+      "updated_at": "2026-02-20 20:18:38.252219",
+      "userId": 2
     }
   ]
 }

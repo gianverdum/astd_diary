@@ -28,10 +28,15 @@ class JournalService {
 
   Future<List<Journal>> getAll(
       {required String id, required String token}) async {
-    http.Response response = await client
-        .get(Uri.parse(getUrl()), headers: {"Authorization": "Bearer $token"});
+    http.Response response = await client.get(
+        Uri.parse("${getUrl()}?userId=$id"),
+        headers: {"Authorization": "Bearer $token"});
     if (response.statusCode == 401) {
       throw Exception("unauthorized");
+    }
+    if (response.statusCode == 403) {
+      // User has no journals yet, return empty list
+      return [];
     }
     if (response.statusCode != 200) {
       throw Exception("Failed to load journals");
